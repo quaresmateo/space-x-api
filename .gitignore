@@ -6,3 +6,6 @@ coverage
 .vscode
 **/*.DS_Store
 .idea
+src/infra/prisma/dev.db
+src/infra/prisma/dev.db-journal
+

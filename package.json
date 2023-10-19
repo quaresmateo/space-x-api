@@ -8,12 +8,14 @@
     "start": "node -r dist/main/index",
     "dev": "nodemon -r tsconfig-paths/register -r dotenv/config src/main/index.ts",
     "build": "npm run clean && tsc -p tsconfig-build.json",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "prisma:migrate-dev": "npx prisma migrate dev --schema src/infra/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.4.2",
     "dotenv": "^16.0.0",
     "express": "^4.18.2",
     "module-alias": "^2.2.2",
@@ -29,6 +31,7 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
+    "prisma": "^5.4.2",
     "tsconfig-paths": "^4.2.0"
   }
 }

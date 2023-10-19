@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Rocket {
+  id     String   @id @default(uuid())
+  Core   Core[]
+  Launch Launch[]
+}
+
+model Core {
+  id              String  @id @default(uuid())
+  flight          Int
+  gridfins        Boolean
+  legs            Boolean
+  reused          Boolean
+  landing_attempt Boolean
+  landing_success Boolean
+  landing_type    String
+  landpad         String
+  rocket          Rocket  @relation(fields: [rocketId], references: [id])
+  rocketId        String
+  Launch          Launch? @relation(fields: [launchId], references: [id])
+  launchId        String?
+}
+
+model Launchpad {
+  id     String   @id @default(uuid())
+  Launch Launch[]
+}
+
+model Payload {
+  id       String  @id @default(uuid())
+  Launch   Launch? @relation(fields: [launchId], references: [id])
+  launchId String?
+}
+
+model Ship {
+  id       String  @id @default(uuid())
+  Launch   Launch? @relation(fields: [launchId], references: [id])
+  launchId String?
+}
+
+model Capsule {
+  id       String  @id @default(uuid())
+  Launch   Launch? @relation(fields: [launchId], references: [id])
+  launchId String?
+}
+
+model Crew {
+  id       String  @id @default(uuid())
+  Launch   Launch? @relation(fields: [launchId], references: [id])
+  launchId String?
+}
+
+model Launch {
+  id                    String    @id @default(uuid())
+  static_fire_date_utc  DateTime
+  static_fire_date_unix Int
+  tdb                   Boolean
+  net                   Boolean
+  window                Int
+  rocket                Rocket    @relation(fields: [rocketId], references: [id])
+  rocketId              String
+  success               Boolean
+  details               String
+  cores                 Core[]
+  launchpad             Launchpad @relation(fields: [launchpadId], references: [id])
+  capsules              Capsule[]
+  ships                 Ship[]
+  crew                  Crew[]
+  payloads              Payload[]
+  date_utc              DateTime
+  date_unix             Int
+  date_local            DateTime
+  date_precision        String
+  upcoming              Boolean
+  name                  String
+  article               String
+  wikipedia             String
+  presskit              String
+  webcast               String
+  youtube_id            String
+  launchpadId           String
+}
