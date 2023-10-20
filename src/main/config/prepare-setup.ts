@@ -1,5 +1,6 @@
 import { routes } from '@/main/config/routes'
 import { testVariables } from '@/main/config/variables'
+import { type Controller } from '@/presentation/controllers/controller-abstract'
 import { Router, type Request, type Response } from 'express'
 
 export const prepareParams = (): PrepareParamsType => {
@@ -21,7 +22,7 @@ type PrepareParamsType = {
   router: Router
 }
 
-const handleController = (controller: any) => {
+const handleController = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     try {
       const httpResponse = await controller.handle(req)

@@ -1,4 +1,5 @@
 import { ListLaunchesControllerFactory, ShowWelcomeMessageControllerFactory } from '@/main/factories/controllers'
+import { type Controller } from '@/presentation/controllers/controller-abstract'
 
 export const routes: RouteType = [
   {
@@ -16,5 +17,5 @@ export const routes: RouteType = [
 export type RouteType = Array<{
   path: string
   method: 'all' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'options' | 'head'
-  controller: any
+  controller: Controller
 }>
