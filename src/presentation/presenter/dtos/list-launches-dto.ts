@@ -24,7 +24,7 @@ export class ListLauchesDTO extends AbstractDTO<ListLauchesDTO> {
     return this
   }
 
-  create (params: any): ListLauchesDTO {
+  private create (params: any): ListLauchesDTO {
     const dto = new ListLauchesDTO()
     Object.assign(dto, params)
     return dto
