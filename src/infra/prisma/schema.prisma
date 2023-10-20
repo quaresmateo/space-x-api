@@ -6,18 +6,43 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Rocket {
-  id     String   @id @default(uuid())
-  Core   Core[]
-  Launch Launch[]
+model Launch {
+  id                    String       @id @default(uuid())
+  name                  String
+  date_utc              DateTime
+  date_local            DateTime
+  date_precision        String
+  date_unix             Int
+  upcoming              Boolean
+  cores                 LaunchCore[]
+  fairings              String
+  links                 Links        @relation(fields: [linksId], references: [id])
+  static_fire_date_utc  DateTime
+  static_fire_date_unix Int
+  tdb                   Boolean
+  net                   Boolean
+  window                Int
+  rocket                String
+  success               Boolean
+  failures              String[]
+  details               String
+  crew                  String[]
+  ships                 String[]
+  capsules              String[]
+  payloads              String[]
+  launchpad             String
+  auto_update           Boolean
+  flight_number         Int
+  linksId               String
 }
 
-model Core {
+model LaunchCore {
   id              String  @id @default(uuid())
+  core            String
   flight          Int
   gridfins        Boolean
   legs            Boolean
@@ -26,68 +51,45 @@ model Core {
   landing_success Boolean
   landing_type    String
   landpad         String
-  rocket          Rocket  @relation(fields: [rocketId], references: [id])
-  rocketId        String
   Launch          Launch? @relation(fields: [launchId], references: [id])
   launchId        String?
 }
 
-model Launchpad {
-  id     String   @id @default(uuid())
-  Launch Launch[]
+model Links {
+  id         String   @id @default(uuid())
+  patch      Patch    @relation(fields: [patchId], references: [id])
+  reddit     Reddit   @relation(fields: [redditId], references: [id])
+  flickr     Flickr   @relation(fields: [flickrId], references: [id])
+  presskit   String
+  webcast    String
+  youtube_id String
+  article    String
+  wikipedia  String
+  Launch     Launch[]
+  patchId    String
+  redditId   String
+  flickrId   String
 }
 
-model Payload {
+model Patch {
+  id    String  @id @default(uuid())
+  small String
+  large String
+  Links Links[]
+}
+
+model Reddit {
   id       String  @id @default(uuid())
-  Launch   Launch? @relation(fields: [launchId], references: [id])
-  launchId String?
+  campaign String
+  launch   String
+  media    String
+  recovery String
+  Links    Links[]
 }
 
-model Ship {
-  id       String  @id @default(uuid())
-  Launch   Launch? @relation(fields: [launchId], references: [id])
-  launchId String?
-}
-
-model Capsule {
-  id       String  @id @default(uuid())
-  Launch   Launch? @relation(fields: [launchId], references: [id])
-  launchId String?
-}
-
-model Crew {
-  id       String  @id @default(uuid())
-  Launch   Launch? @relation(fields: [launchId], references: [id])
-  launchId String?
-}
-
-model Launch {
-  id                    String    @id @default(uuid())
-  static_fire_date_utc  DateTime
-  static_fire_date_unix Int
-  tdb                   Boolean
-  net                   Boolean
-  window                Int
-  rocket                Rocket    @relation(fields: [rocketId], references: [id])
-  rocketId              String
-  success               Boolean
-  details               String
-  cores                 Core[]
-  launchpad             Launchpad @relation(fields: [launchpadId], references: [id])
-  capsules              Capsule[]
-  ships                 Ship[]
-  crew                  Crew[]
-  payloads              Payload[]
-  date_utc              DateTime
-  date_unix             Int
-  date_local            DateTime
-  date_precision        String
-  upcoming              Boolean
-  name                  String
-  article               String
-  wikipedia             String
-  presskit              String
-  webcast               String
-  youtube_id            String
-  launchpadId           String
+model Flickr {
+  id       String   @id @default(uuid())
+  small    String[]
+  original String[]
+  Links    Links[]
 }

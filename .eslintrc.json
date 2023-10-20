@@ -10,5 +10,4 @@
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/return-await": "off"
   }
- }
- 
+}

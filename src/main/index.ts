@@ -1,8 +1,10 @@
 import { prepareParams } from '@/main/config/prepare-setup'
 import { variables } from '@/main/config/variables'
 import express, { type Response } from 'express'
+import { PrismaClient } from '@prisma/client'
 
 const app = express()
+const prisma = new PrismaClient()
 
 try {
   const port = variables.apiPort
@@ -30,8 +32,15 @@ try {
   })
 } catch (error) {
   console.error(error)
+  console.log('Desconnecting Prisma...')
+  prisma.$disconnect().then()
   app.use((_, res) => {
     ServerError(res, String(error))
+  })
+} finally {
+  process.on('beforeExit', () => {
+    console.log('Desconnecting Prisma...')
+    prisma.$disconnect().then()
   })
 }
 

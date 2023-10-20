@@ -1,4 +1,4 @@
-import { type HttpResponse, serverError } from '@/presentation/helpers'
+import { type HttpResponse } from '@/presentation/helpers'
 
 export abstract class Controller {
   abstract perform (httpRequest: any): Promise<HttpResponse>
@@ -8,7 +8,7 @@ export abstract class Controller {
       return await this.perform(httpRequest)
     } catch (error) {
       console.log('Abstract Error: ', error)
-      return serverError(error)
+      throw new Error(error as string)
     }
   }
 }
