@@ -15,7 +15,7 @@ export class ListLauchesDTO extends AbstractDTO<ListLauchesDTO> {
   @IsOptional()
     search?: string
 
-  override async validate (params: any): Promise< ListLauchesDTO | Error> {
+  override async validate (params: any): Promise<ListLauchesDTO | Error> {
     const errors = await validate(this.create(params))
     if (errors.length) {
       return new InvalidParamError(errors as any)
@@ -25,8 +25,6 @@ export class ListLauchesDTO extends AbstractDTO<ListLauchesDTO> {
   }
 
   private create (params: any): ListLauchesDTO {
-    const dto = new ListLauchesDTO()
-    Object.assign(dto, params)
-    return dto
+    return Object.assign(new ListLauchesDTO(), params)
   }
 }
