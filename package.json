@@ -9,7 +9,13 @@
     "dev": "nodemon -r tsconfig-paths/register -r dotenv/config src/main/index.ts",
     "build": "npm run clean && tsc -p tsconfig-build.json",
     "clean": "rimraf dist",
-    "prisma:migrate-dev": "npx prisma migrate dev --schema src/infra/prisma/schema.prisma"
+    "prisma:migrate-dev": "npx prisma migrate dev --schema src/infra/prisma/schema.prisma",
+    "prisma:generate": "npx prisma generate --schema src/infra/prisma/schema.prisma",
+    "prisma:reset": "npx prisma migrate reset --schema src/infra/prisma/schema.prisma",
+    "prisma:seed": "npx prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node src/infra/prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +30,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.20",
     "@types/module-alias": "^2.0.1",
