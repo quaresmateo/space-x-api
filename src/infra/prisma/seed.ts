@@ -7,6 +7,19 @@ const randomBoolean = (): boolean => {
   return Math.random() < 0.5
 }
 
+const randomRocket = (): string => {
+  const rockets = [
+    'Falcon 1',
+    'New Falcon 9',
+    'Falcon Heavy',
+    'Used Falcon 9'
+  ]
+
+  const randomIndex = Math.floor(Math.random() * rockets.length)
+
+  return rockets[randomIndex]
+}
+
 async function seed (): Promise<void> {
   for (let i = 0; i < 10; i++) {
     await prisma.launch.create({
@@ -23,7 +36,7 @@ async function seed (): Promise<void> {
         tdb: randomBoolean(),
         net: randomBoolean(),
         window: faker.number.float(),
-        rocket: faker.string.uuid(),
+        rocket: randomRocket(),
         success: randomBoolean(),
         failures: Array.from({ length: 10 }, () => faker.string.uuid()),
         details: faker.lorem.paragraph(),

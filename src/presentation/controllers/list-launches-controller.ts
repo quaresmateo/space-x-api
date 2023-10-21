@@ -16,10 +16,10 @@ export class ListLaunchesController extends Controller {
     const isRequestValid = await this.listLaunchesDTO.validate(request)
     if (isRequestValid instanceof Error) return badRequest(isRequestValid)
 
-    const isMessageLoaded = await this.listLaunchesService.perform(isRequestValid)
-    if (isMessageLoaded instanceof NotFoundError) return notFound(isMessageLoaded)
+    const isLaunchesListed = await this.listLaunchesService.perform(isRequestValid)
+    if (isLaunchesListed instanceof NotFoundError) return notFound(isLaunchesListed)
 
-    return isMessageLoaded instanceof Error ? badRequest(isMessageLoaded) : success(isMessageLoaded)
+    return isLaunchesListed instanceof Error ? badRequest(isLaunchesListed) : success(isLaunchesListed)
   }
 }
 
