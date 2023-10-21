@@ -22,6 +22,6 @@ export namespace LoadLaunchesStatsUseCase {
 
   export type LaunchesByYear = {
     year: number
-    quantity: number
+    launches: Launches[]
   }
 }

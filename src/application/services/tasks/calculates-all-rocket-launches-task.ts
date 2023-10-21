@@ -5,12 +5,17 @@ export const calculatesAllRocketLaunchesTask = (
 ): LoadLaunchesStatsUseCase.RocketLaunches => {
   const successCount = allLaunchesListed.launches.filter((launch) => launch.success).length
   const failedCount = allLaunchesListed.launches.filter((launch) => !launch.success).length
-  const launches: LoadLaunchesStatsUseCase.Launches[] = allLaunchesListed.launches.map((launch) => {
-    return {
-      rocket: launch.rocket,
-      quantity: allLaunchesListed.launches.filter((paramLaunch) => paramLaunch.rocket === launch.rocket).length
-    }
-  })
+  const launches: LoadLaunchesStatsUseCase.Launches[] = allLaunchesListed.launches
+    .map((launch) => {
+      return {
+        rocket: launch.rocket,
+        quantity: allLaunchesListed.launches.filter((paramLaunch) => paramLaunch.rocket === launch.rocket).length
+      }
+    })
+    .filter((launch, index, self) => {
+      return index === self.findIndex((paramLaunch) => paramLaunch.rocket === launch.rocket)
+    })
+
   const rocketLaunches: LoadLaunchesStatsUseCase.RocketLaunches = {
     success: successCount,
     failed: failedCount,
