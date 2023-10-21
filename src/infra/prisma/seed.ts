@@ -20,7 +20,7 @@ const randomRocket = (): string => {
   return rockets[randomIndex]
 }
 
-async function seed (): Promise<void> {
+export async function seed (): Promise<void> {
   for (let i = 0; i < 10; i++) {
     await prisma.launch.create({
       data: {

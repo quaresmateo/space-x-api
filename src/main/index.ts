@@ -1,5 +1,6 @@
 import { prepareParams } from '@/main/config/prepare-setup'
 import { variables } from '@/main/config/variables'
+import { exportSeedSchedule } from '@/infra/schedule'
 import express, { type Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 
@@ -25,6 +26,8 @@ try {
     })
   }
 
+  exportSeedSchedule.start()
+
   app.use('/api', router)
 
   app.listen(port, () => {
@@ -33,6 +36,7 @@ try {
 } catch (error) {
   console.error(error)
   console.log('Desconnecting Prisma...')
+  exportSeedSchedule.stop()
   prisma.$disconnect().then()
   app.use((_, res) => {
     ServerError(res, String(error))
@@ -40,6 +44,7 @@ try {
 } finally {
   process.on('beforeExit', () => {
     console.log('Desconnecting Prisma...')
+    exportSeedSchedule.stop()
     prisma.$disconnect().then()
   })
 }
