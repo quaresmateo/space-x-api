@@ -8,7 +8,7 @@ export const prepareParams = (): PrepareParamsType => {
   const router = Router()
 
   routes.forEach((route) => {
-    (router as any)[route.method](route.path, handleController(route.controller))
+    ;(router as any)[route.method](route.path, handleController(route.controller))
   })
 
   return {
@@ -25,7 +25,12 @@ type PrepareParamsType = {
 const handleController = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     try {
-      const httpResponse = await controller.handle(req)
+      const payload = {
+        ...(req.body || {}),
+        ...(req.params || {}),
+        ...(req.query || {})
+      }
+      const httpResponse = await controller.handle(payload)
       res.status(httpResponse.statusCode).json(httpResponse.data)
     } catch (error) {
       console.error('Erro:', error)
