@@ -14,26 +14,26 @@ async function seed (): Promise<void> {
         name: faker.word.adjective(),
         date_utc: new Date(faker.date.future().getTime()),
         date_local: new Date(faker.date.future().getTime()),
-        date_precision: faker.word.adjective(),
-        date_unix: faker.number.float(),
+        date_precision: 'hour',
+        date_unix: faker.number.int(1000),
         upcoming: randomBoolean(),
         fairings: faker.word.adjective(),
         static_fire_date_utc: new Date(faker.date.past()),
-        static_fire_date_unix: faker.number.float(),
+        static_fire_date_unix: faker.number.int(1000),
         tdb: randomBoolean(),
         net: randomBoolean(),
         window: faker.number.float(),
-        rocket: faker.word.words(),
+        rocket: faker.string.uuid(),
         success: randomBoolean(),
-        failures: faker.word.words().split(' '),
+        failures: Array.from({ length: 10 }, () => faker.string.uuid()),
         details: faker.lorem.paragraph(),
-        crew: faker.word.words().split(' '),
-        ships: faker.word.words().split(' '),
-        capsules: faker.word.words().split(' '),
-        payloads: faker.word.words().split(' '),
-        launchpad: faker.word.adjective(),
+        crew: Array.from({ length: 10 }, () => faker.string.uuid()),
+        ships: Array.from({ length: 10 }, () => faker.string.uuid()),
+        capsules: Array.from({ length: 10 }, () => faker.string.uuid()),
+        payloads: Array.from({ length: 10 }, () => faker.string.uuid()),
+        launchpad: faker.string.numeric(30),
         auto_update: randomBoolean(),
-        flight_number: faker.number.float(),
+        flight_number: faker.number.int(1000),
         links: {
           create: {
             patch: {
@@ -58,7 +58,7 @@ async function seed (): Promise<void> {
             },
             presskit: faker.internet.url(),
             webcast: faker.internet.url(),
-            youtube_id: faker.number.float().toString(),
+            youtube_id: faker.string.uuid(),
             article: faker.internet.url(),
             wikipedia: faker.internet.url()
           }
@@ -66,15 +66,15 @@ async function seed (): Promise<void> {
         cores: {
           createMany: {
             data: Array.from({ length: 10 }, () => ({
-              core: faker.word.adjective(),
+              core: faker.string.uuid(),
               flight: faker.number.float(),
               gridfins: randomBoolean(),
               legs: randomBoolean(),
               reused: randomBoolean(),
               landing_attempt: randomBoolean(),
               landing_success: randomBoolean(),
-              landing_type: faker.word.adjective(),
-              landpad: faker.word.adjective()
+              landing_type: faker.word.preposition().toUpperCase(),
+              landpad: faker.string.uuid()
             }))
           }
         }
