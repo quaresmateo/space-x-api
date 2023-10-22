@@ -3,6 +3,8 @@ import { variables } from '@/main/config/variables'
 import { exportSeedSchedule } from '@/infra/schedule'
 import express, { type Response } from 'express'
 import { PrismaClient } from '@prisma/client'
+import swaggerUi from 'swagger-ui-express'
+import swaggerJSDoc from 'swagger-jsdoc'
 
 const app = express()
 const prisma = new PrismaClient()
@@ -10,7 +12,7 @@ const prisma = new PrismaClient()
 try {
   const port = variables.apiPort
 
-  const { isValidVariables, router } = prepareParams()
+  const { isValidVariables, router, swaggerDefinition } = prepareParams()
 
   if (!isValidVariables) {
     console.error('Invalid variables')
@@ -25,6 +27,16 @@ try {
       ServerError(res, 'Invalid router')
     })
   }
+
+  if (!swaggerDefinition) {
+    console.error('Invalid swaggerDefinition')
+    app.use((_, res) => {
+      ServerError(res, 'Invalid swaggerDefinition')
+    })
+  }
+
+  const swaggerSpec = swaggerJSDoc(swaggerDefinition)
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
   exportSeedSchedule.start()
 

@@ -1,0 +1,76 @@
+paths:
+  /launches/stats:
+    get:
+      summary: Recuperar estatísticas de lançamentos de foguetes
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Recurso não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        rocketLaunches:
+          $ref: '#/components/schemas/RocketLaunches'
+        launchesByYear:
+          type: array
+          items:
+            $ref: '#/components/schemas/LaunchesByYear'
+
+    RocketLaunches:
+      type: object
+      properties:
+        success:
+          type: integer
+        failed:
+          type: integer
+        launches:
+          type: array
+          items:
+            $ref: '#/components/schemas/Launches'
+
+    Launches:
+      type: object
+      properties:
+        rocket:
+          type: string
+        quantity:
+          type: integer
+
+    LaunchesByYear:
+      type: object
+      properties:
+        year:
+          type: integer
+        launches:
+          type: array
+          items:
+            $ref: '#/components/schemas/Launches'
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string

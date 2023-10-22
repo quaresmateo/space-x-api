@@ -1,0 +1,191 @@
+paths:
+  /launches:
+    get:
+      summary: Recuperar informações sobre lançamentos de foguetes
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  launches:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LaunchEntity'
+                  totalDocs:
+                    type: integer
+                  page:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  hasNext:
+                    type: boolean
+                  hasPrev:
+                    type: boolean
+        '500':
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Recurso não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    LaunchEntity:
+      type: object
+      properties:
+        fairings:
+          type: string
+        links:
+          type: object
+          properties:
+            patch:
+              $ref: '#/components/schemas/LinkPatch'
+            reddit:
+              $ref: '#/components/schemas/LinkReddit'
+            flickr:
+              $ref: '#/components/schemas/LinkFlickr'
+            presskit:
+              type: string
+            webcast:
+              type: string
+            youtube_id:
+              type: string
+            article:
+              type: string
+            wikipedia:
+              type: string
+        static_fire_date_utc:
+          type: string
+        static_fire_date_unix:
+          type: integer
+        tdb:
+          type: boolean
+        net:
+          type: boolean
+        window:
+          type: integer
+        rocket:
+          type: string
+        success:
+          type: boolean
+        failures:
+          type: array
+          items:
+            type: object
+        details:
+          type: string
+        crew:
+          type: array
+          items:
+            type: string
+        ships:
+          type: array
+          items:
+            type: string
+        capsules:
+          type: array
+          items:
+            type: string
+        payloads:
+          type: array
+          items:
+            type: string
+        launchpad:
+          type: string
+        auto_update:
+          type: boolean
+        flight_number:
+          type: integer
+        name:
+          type: string
+        date_utc:
+          type: string
+        date_unix:
+          type: integer
+        date_local:
+          type: string
+        date_precision:
+          type: string
+        upcoming:
+          type: boolean
+        cores:
+          type: array
+          items:
+            $ref: '#/components/schemas/Core'
+        id:
+          type: string
+
+    LinkPatch:
+      type: object
+      properties:
+        small:
+          type: string
+        large:
+          type: string
+
+    LinkReddit:
+      type: object
+      properties:
+        campaign:
+          type: string
+        launch:
+          type: string
+        media:
+          type: string
+        recovery:
+          type: string
+
+    LinkFlickr:
+      type: object
+      properties:
+        small:
+          type: array
+          items:
+            type: string
+        original:
+          type: array
+          items:
+            type: string
+
+    Core:
+      type: object
+      properties:
+        core:
+          type: string
+        flight:
+          type: integer
+        gridfins:
+          type: boolean
+        legs:
+          type: boolean
+        reused:
+          type: boolean
+        landing_attempt:
+          type: boolean
+        landing_success:
+          type: boolean
+        landing_type:
+          type: string
+        landpad:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
