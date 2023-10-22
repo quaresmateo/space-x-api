@@ -1,0 +1,39 @@
+version: '3'
+services:
+  app:
+    container_name: space-x-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:postgrespw@localhost:5432/spacexdb
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=localhost
+    networks:
+      - app-network
+
+  db:
+    container_name: postgres-db
+    image: postgres:latest
+    ports:
+      - "5432:5432" 
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_DB: spacexdb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

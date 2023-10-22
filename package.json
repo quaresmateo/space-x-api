@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r dist/main/index",
+    "test": "echo \"Error: no test specified\"; exit 1",
+    "start": "node -r dist/main/index.js",
     "dev": "nodemon -r tsconfig-paths/register -r dotenv/config src/main/index.ts",
-    "build": "npm run clean && tsc -p tsconfig-build.json",
+    "build": "npm run clean; tsc -p tsconfig-build.json",
     "clean": "rimraf dist",
     "prisma:migrate-dev": "npx prisma migrate dev --schema src/infra/prisma/schema.prisma",
     "prisma:generate": "npx prisma generate --schema src/infra/prisma/schema.prisma",
     "prisma:reset": "npx prisma migrate reset --schema src/infra/prisma/schema.prisma",
-    "prisma:seed": "npx prisma db seed"
+    "prisma:seed": "npx prisma db seed",
+    "docker:build": "docker build -t space-x-app .; docker-compose up"
   },
   "prisma": {
     "seed": "ts-node src/infra/prisma/seed.ts"
