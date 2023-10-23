@@ -1,13 +1,16 @@
-FROM node:16-alpine
+FROM node AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json tsconfig.json tsconfig-build.json /app/
 
 RUN npm install
 
-COPY . .
+COPY src/ /app/src/
 
-EXPOSE 3000
+RUN ls -ltra
 
-CMD [ "npm", "start" ]
+RUN npm run clean
+
+RUN npm run build
+

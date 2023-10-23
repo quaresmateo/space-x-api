@@ -5,7 +5,7 @@ import express, { type Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJSDoc from 'swagger-jsdoc'
-
+import { cors } from '@/main/config/cors'
 const app = express()
 const prisma = new PrismaClient()
 
@@ -34,6 +34,13 @@ try {
       ServerError(res, 'Invalid swaggerDefinition')
     })
   }
+
+  app.use((_, res, next) => {
+    res.header('Access-Control-Allow-Origin', cors()['Access-Control-Allow-Origin'])
+    res.header('Access-Control-Allow-Methods', cors()['Access-Control-Allow-Methods'])
+    res.header('Access-Control-Allow-Headers', cors()['Access-Control-Allow-Headers'])
+    next()
+  })
 
   const swaggerSpec = swaggerJSDoc(swaggerDefinition)
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))

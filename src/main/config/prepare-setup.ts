@@ -20,7 +20,7 @@ export const prepareParams = (): PrepareParamsType => {
     },
     servers: [
       {
-        url: `http://${variables.host}:${variables.port}/api`
+        url: `http://${variables.host}:${variables.apiPort}/api`
       }
     ]
   }

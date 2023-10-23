@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\"; exit 1",
-    "start": "node -r dist/main/index.js",
+    "start": "node -r dist/main/index",
     "dev": "nodemon -r tsconfig-paths/register -r dotenv/config src/main/index.ts",
     "build": "npm run clean; tsc -p tsconfig-build.json",
     "clean": "rimraf dist",
